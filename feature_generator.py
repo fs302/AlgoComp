@@ -86,7 +86,7 @@ def generate_ad_feature(action, ad, app_categories, user_installed_apps, user_ap
 
     ad_related_column = ['creativeID','adID','camgaignID','advertiserID','appID']
 
-    ad_feature = ad
+
 
     for col in ad_related_column:
         ad_feature = cal_cvr_byids(action, ad_feature, [col])
@@ -101,13 +101,19 @@ def generate_ad_feature(action, ad, app_categories, user_installed_apps, user_ap
 def generate_position_feature():
     pass
 
-def generate_user_target_feature(action, target):
+def generate_user_item_feature(action, target):#join target
 
-    # user-category
-    user_category_col = ['userID','appCategory']
-    user_category_cvr = cal_cvr_byids(action, target, user_category_col)
+    user_columns = ['userID','gender','haveBaby','age','education','hometown','residence']
+    item_columns = ['appCategory','appID','positionID','sitesetID','positionType','connectionType','telecomsOperator','appPlatform','campaignID']
 
-    user_target_feature = user_category_cvr
+
+    for u in user_columns:
+        for i in item_columns:
+            col = [u,i]
+            target = cal_cvr_byids(action, target, col)
+
+
+    user_target_feature = target
 
     # user-blabla
 
