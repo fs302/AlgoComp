@@ -15,7 +15,7 @@ import os
 
 
 os.getcwd()
-os.chdir('/Users/kangxun/Desktop/kangxun/pre')
+os.chdir('../Data/')
 ##1.读入数据
 #训练
 train = pd.read_csv("train.csv")
@@ -41,10 +41,25 @@ df2 = pd.merge(df1, position, how='left', left_on='positionID', right_on='positi
 #sum(pd.isnull(df2.positionID)) 
 extendTrainingData = pd.merge(df2, app_categories, how='left', left_on='appID', right_on='appID')
 
+train_0 = extendTrainingData[extendTrainingData.clickTime <= 300000]
 
-#设置特征值和目标值
-X = extendTrainingData.drop('label',1)
-y = extendTrainingData['label']
-#将数据分割为训练集和测试集
-X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.3, random_state=0)
+train_1 = extendTrainingData[extendTrainingData.clickTime>300000]
 
+
+train_0.to_csv('extend_train0.csv',index=False,header=True,sep=',')
+train_1.to_csv('extend_train1.csv',index=False,header=True,sep=',')
+
+sample_train0 = train_0.sample(n=10000)
+
+sample_train0.to_csv('sample_train0.csv', index=False,header=True,sep=',')
+
+df = pd.merge(test, user, how='left', left_on='userID', right_on='userID')
+#sum(pd.isnull(train_user.userID)) #0
+df1 = pd.merge(df, ad, how='left', left_on='creativeID', right_on='creativeID')
+#sum(pd.isnull(df1.creativeID))
+df2 = pd.merge(df1, position, how='left', left_on='positionID', right_on='positionID')
+#sum(pd.isnull(df2.positionID))
+extendTestData = pd.merge(df2, app_categories, how='left', left_on='appID', right_on='appID')
+
+
+extendTestData.to_csv('extend_test.csv',index=False,header=True,sep=',')
