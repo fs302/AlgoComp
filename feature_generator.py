@@ -41,6 +41,7 @@ def cal_cvr_byids(data, target_data, ids, query="label==1"):
 
 def generate_user_feature(user, action, user_installed_apps, user_app_actions):
 
+    print "starting generate user features."
     # basic_features
 
     bins = [0,1,18,28,35,60,80]
@@ -69,11 +70,15 @@ def generate_user_feature(user, action, user_installed_apps, user_app_actions):
     user_feature = pd.merge(user_feature, install_app_7d, left_on='userID', right_index=True, how='left').fillna(0)
 
     # lack user-category
+    print "end generate user features."
 
     return user_feature
 
 def generate_ad_feature(action, ad, app_categories, user_installed_apps, user_app_actions):
+
     # app -> creative -> ad -> campaign -> advertiser
+
+    print "starting generate ad features."
 
     # app-onehot
 
@@ -83,10 +88,9 @@ def generate_ad_feature(action, ad, app_categories, user_installed_apps, user_ap
 
     app_feature = cal_count_byid(user_installed_apps, app_feature, 'appID', query='appID>0',new_column='app_install_num')
 
-
     ad_related_column = ['creativeID','adID','camgaignID','advertiserID','appID']
 
-
+    ad_feature = ad
 
     for col in ad_related_column:
         ad_feature = cal_cvr_byids(action, ad_feature, [col])
@@ -96,6 +100,8 @@ def generate_ad_feature(action, ad, app_categories, user_installed_apps, user_ap
 
     ad_feature = pd.merge(ad_feature, app_feature, how='left', left_on='appID', right_on='appID')
 
+    print "end generate user features."
+
     return ad_feature
 
 def generate_position_feature():
@@ -103,8 +109,9 @@ def generate_position_feature():
 
 def generate_user_item_feature(action, target):#join target
 
+    print "starting generate user_item features."
     user_columns = ['userID','gender','haveBaby','age','education','hometown','residence']
-    item_columns = ['appCategory','appID','positionID','sitesetID','positionType','connectionType','telecomsOperator','appPlatform','campaignID']
+    item_columns = ['appCategory','appID','positionID','sitesetID','positionType','connectionType','telecomsOperator','appPlatform','camgaignID']
 
 
     for u in user_columns:
@@ -116,6 +123,8 @@ def generate_user_item_feature(action, target):#join target
     user_target_feature = target
 
     # user-blabla
+
+    print "end generate user_item features."
 
     return user_target_feature
 
