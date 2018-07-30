@@ -73,15 +73,16 @@ if __name__== "__main__":
     ideal_file = '../test/year1_valid_triplets_hidden.txt'
     user_file = '../train/kaggle_users.txt'
     song_file = '../train/kaggle_songs.txt'
+    topk=500
     if len(sys.argv)>1:
     	submission_file = sys.argv[1]
     print 'Reading Ideal File:'+ideal_file
     ideal = read_ideal_list(ideal_file, user_file, song_file)
-    sub1 =  'rec_result.txt'
+    sub1 =  '../ref/ncf/data/item_cf_baseline.txt'
     print 'Reading Recommend File:'+sub1
     rec = read_rec_list(sub1)
-    print 'MAP:',get_MAP(500,ideal,rec)
-    sub2 = '../winner_solution/win_submit.txt'
+    print 'MAP:',get_MAP(topk,ideal,rec)
+    sub2 = '../ref/ncf/msd_GMF_rec_output.txt'
     print 'Reading Recommend File:'+sub2
     rec = read_rec_list(sub2)
-    print 'MAP:',get_MAP(500,ideal,rec)
+    print 'MAP:',get_MAP(topk,ideal,rec)
