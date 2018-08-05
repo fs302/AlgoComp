@@ -14,7 +14,7 @@ from aggregators import MeanAggregator
 class Model(object):
     def __init__(self,u2s, s2u, model_name):
         self.model_name=model_name
-        print 'Constructing '+self.model_name
+        # print 'Constructing '+self.model_name
         self.s2u=s2u
         self.u2s=u2s
         self.pop_songs = []
@@ -23,7 +23,7 @@ class Model(object):
     def get_pop_songs(self):
         ranklist = sorted(self.s2u.items(), key=lambda x:len(x[1]), reverse=True)
         self.pop_songs = [x[0] for x in ranklist]
-        print "\tRanking Pop Items. tot:",len(self.pop_songs)
+        # print "\tRanking Pop Items. tot:",len(self.pop_songs)
 
     def formatRecommendation(self, origin_score, user_actions, rec_len):
         reclist = []
@@ -53,7 +53,7 @@ class ItemCF(Model):
         self.knn=knn
 
     def cal_item_sim(self, sim_method='jaccard'):
-        print "\tCalc Item Similarity:"+sim_method+',alpha='+str(self.alpha)+",Q="+str(self.Q)
+        # print "\tCalc Item Similarity:"+sim_method+',alpha='+str(self.alpha)+",Q="+str(self.Q)
         C = dict()
         N = dict()
         for u, songs in self.u2s.items():
@@ -116,7 +116,7 @@ class UserCF(Model):
         self.knn = knn
 
     def cal_user_sim(self, sim_method='jaccard'):
-        print "\tCalc User Similarity:"+sim_method+',alpha='+str(self.alpha)
+        # print "\tCalc User Similarity:"+sim_method+',alpha='+str(self.alpha)
         C = dict()
         N = dict()
         cnt = 0
@@ -145,7 +145,7 @@ class UserCF(Model):
                     self.user_sim[u][v] = cuv / (math.pow(N[u],self.alpha)*math.pow(N[v],1-self.alpha))
                 else:
                     self.user_sim[u][v] = cuv
-        print "\tCalc User Similarity Finished."
+        #print "\tCalc User Similarity Finished."
 
     def score(self, userid, user_actions):
         candidates = {}
