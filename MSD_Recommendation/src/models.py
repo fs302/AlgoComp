@@ -86,7 +86,7 @@ class ItemCF(Model):
                 continue
             for related_song in user_actions:
                 if related_song in self.song_sim[song]:
-                    pool[related_song] = self.song_sim[song][related_song]
+                    pool[related_song] = math.pow(self.song_sim[song][related_song],self.Q)
             sorted_pool = sorted(pool.items(), key=lambda x:x[1], reverse=True)
             scores[song] = sum(dict(sorted_pool[:self.knn]).values())
         return scores
