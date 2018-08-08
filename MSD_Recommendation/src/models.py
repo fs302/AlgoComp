@@ -122,8 +122,6 @@ class UserCF(Model):
         cnt = 0
         for s, users in self.s2u.items():
             cnt += 1
-            if cnt % 10000 == 0:
-                print '\tsong#', cnt
             if len(users)>1000 or len(users)<2:
                 continue
             for u in users:
